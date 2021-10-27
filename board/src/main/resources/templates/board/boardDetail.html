@@ -40,6 +40,28 @@
 								id="contents" name="contents" th:text="${board.contents }"></textarea>
 						</td>
 					</tr>
+
+
+					<table class="board_list">
+						<colgroup>
+							<col width="50%" />
+							<col width="*" />
+							<col width="*" />
+							<col width="*" />
+						</colgroup>
+						<tbody>
+
+							<tr th:if="${#lists.size(replyList)} > 0"
+								th:each="list : ${replyList}">
+								<td class="title" th:text="${list.replyMemo}"></td>
+								<td th:text="${list.createdDatetime}"></td>
+								<td th:text="${list.creatorId }"></td>
+								<td><a href="/reply/openReplyDetail.do?replyNo="
+									th:attrappend="href=${list.replyNo}" class="btn">수정/삭제</a></td>
+							</tr>
+						</tbody>
+					</table>
+
 				</tbody>
 			</table>
 			<input type="hidden" id="boardIdx" name="boardIdx"
@@ -47,26 +69,37 @@
 		</form>
 		<a href="#this" id="list" class="btn">목록으로</a> <a href="#this"
 			id="edit" class="btn">수정하기</a> <a href="#this" id="delete"
-			class="btn">삭제하기</a>
+			class="btn">삭제하기</a> <a href="#this" id="reply" class="btn">댓글추가</a>
 	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$("#list").on("click", function() {
-				location.href = "/board/openBoardList.do";
-			});
-			$("#edit").on("click", function() {
-				var frm = $("#frm")[0];
-				frm.action = "/board/updateBoard.do";
-				frm.submit();
-			});
-			$("#delete").on("click", function() {
-				var frm = $("#frm")[0];
-				frm.action = "/board/deleteBoard.do";
-				frm.submit();
-			});
-		});
+		$(document)
+				.ready(
+						function() {
+							$("#list").on("click", function() {
+								location.href = "/board/openBoardList.do";
+							});
+							$("#edit").on("click", function() {
+								var frm = $("#frm")[0];
+								frm.action = "/board/updateBoard.do";
+								frm.submit();
+							});
+							$("#delete").on("click", function() {
+								var frm = $("#frm")[0];
+								frm.action = "/board/deleteBoard.do";
+								frm.submit();
+							});
+							$("#reply")
+									.on(
+											"click",
+											function() {
+												var frm = $("#frm")[0];
+												frm.action = "/reply/openReplyWrite.do?boardIdx="
+														+ $('#boardIdx').val();
+												frm.submit();
+											});
+						});
 	</script>
 </body>
 </html>

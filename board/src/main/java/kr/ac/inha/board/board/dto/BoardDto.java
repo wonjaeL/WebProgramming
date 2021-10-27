@@ -8,6 +8,7 @@ public class BoardDto {
 	private String title;
 	private String contents;
 	private int hitCnt;
+	private int replyCnt;
 	private String createdDatetime;
 	private String creatorId;
 	private String updateDatetime;

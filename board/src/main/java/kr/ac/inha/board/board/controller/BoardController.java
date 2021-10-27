@@ -1,5 +1,6 @@
 package kr.ac.inha.board.board.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.ac.inha.board.board.dto.BoardDto;
 import kr.ac.inha.board.board.service.BoardService;
+import kr.ac.inha.board.reply.dto.ReplyDto;
+import kr.ac.inha.board.reply.service.ReplyService;
 
 @Controller
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private ReplyService replyService;
 
 	@RequestMapping("/board/openBoardList.do")
 	public ModelAndView openBoardList() throws Exception {
@@ -40,6 +45,10 @@ public class BoardController {
 		ModelAndView mv = new ModelAndView("/board/boardDetail");
 		BoardDto board = boardService.selectBoardDetail(boardIdx);
 		mv.addObject("board", board);
+		
+		List<ReplyDto> replyList = replyService.selectReplyList(boardIdx);
+		mv.addObject("replyList", replyList);
+
 		return mv;
 	}
 

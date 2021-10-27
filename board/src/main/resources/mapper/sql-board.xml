@@ -8,6 +8,7 @@
 				board_idx,
 				title,
 				hit_cnt,
+				reply_cnt,
 				DATE_FORMAT(created_datetime, '%Y-%m-%d %H:%i:%s') AS created_datetime
 			FROM
 				t_board
@@ -43,7 +44,13 @@
 		resultType="kr.ac.inha.board.board.dto.BoardDto">
 		<![CDATA[
 			SELECT
-				board_idx, title, contents, hit_cnt, DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime, creator_id
+				board_idx,
+				title,
+				contents,
+				hit_cnt,
+				reply_cnt,
+				DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime,
+				creator_id
 			FROM
 				t_board
 			WHERE
@@ -59,6 +66,26 @@
 				t_board
 			SET
 				hit_cnt = hit_cnt + 1
+			WHERE
+				board_idx = #{boardIdx}
+		]]>
+	</update>
+	<update id="addReplyCount" parameterType="int">
+		<![CDATA[
+			UPDATE
+				t_board
+			SET
+				reply_cnt = reply_cnt + 1
+			WHERE
+				board_idx = #{boardIdx}
+		]]>
+	</update>
+	<update id="minusReplyCount" parameterType="int">
+		<![CDATA[
+			UPDATE
+				t_board
+			SET
+				reply_cnt = reply_cnt - 1
 			WHERE
 				board_idx = #{boardIdx}
 		]]>
